@@ -1,0 +1,17 @@
+version: '3'
+
+tasks:
+  login:
+    desc: Log into aws ECR
+    cmds:
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 214284003688.dkr.ecr.us-east-1.amazonaws.com
+
+  run:
+    desc: Run the server with docker compose
+    cmds:
+      - docker-compose up -d
+
+  stop:
+    desc: Stop the local server
+    cmds:
+      - docker-compose down

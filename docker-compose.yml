@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:6-jammy
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    expose:
+      - 27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    volumes:
+      - mongo-data:/data/db
+  user-api:
+    image: 214284003688.dkr.ecr.us-east-1.amazonaws.com/ac-users-api:latest
+    restart: unless-stopped
+    ports:
+      - '8000:8000'
+    environment:
+      - MONGO__URL=mongodb://user:pass@mongodb:27017
+
+    depends_on:
+      - mongodb
+  
+  courses-api:
+    image: 214284003688.dkr.ecr.us-east-1.amazonaws.com/ac-courses-api:latest
+    restart: unless-stopped
+    ports:
+      - '8001:8001'
+    environment:
+      - MONGO__URL=mongodb://user:pass@mongodb:27017
+    depends_on:
+      - mongodb
+
+
+volumes:
+  mongo-data:
