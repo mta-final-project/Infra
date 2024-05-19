@@ -24,3 +24,12 @@ resource "aws_ecr_repository" "ac-files-api" {
     scan_on_push = true
   }
 }
+
+resource "aws_ecr_repository" "ac-ui" {
+  name = "ac-ui"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
